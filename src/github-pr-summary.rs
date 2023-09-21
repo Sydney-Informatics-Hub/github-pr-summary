@@ -26,7 +26,7 @@ pub async fn run() -> anyhow::Result<()> {
     logger::init();
     log::debug!("Running github-pr-summary/main");
 
-    let owner = env::var("github_owner").unwrap_or("juntao".to_string());
+    let owner = env::var("github_owner").unwrap_or("Sydney-Informatics-Hub".to_string());
     let repo = env::var("github_repo").unwrap_or("test".to_string());
     let trigger_phrase = env::var("trigger_phrase").unwrap_or("flows summarize".to_string());
 
