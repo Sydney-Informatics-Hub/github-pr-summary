@@ -16,8 +16,8 @@ use std::env;
 //   the max token size or word count for GPT4 is 8192
 //   the max token size or word count for GPT35Turbo is 4096
 static CHAR_SOFT_LIMIT : usize = 9000;
-// static MODEL : ChatModel = ChatModel::GPT35Turbo;
-static MODEL : ChatModel = ChatModel::GPT4;
+static MODEL : ChatModel = ChatModel::GPT35Turbo;
+// static MODEL : ChatModel = ChatModel::GPT4;
 
 #[no_mangle]
 #[tokio::main(flavor = "current_thread")]
@@ -27,8 +27,8 @@ pub async fn run() -> anyhow::Result<()> {
     log::debug!("Running github-pr-summary/main");
 
     let owner = env::var("github_owner").unwrap_or("Sydney-Informatics-Hub".to_string());
-    let repo = env::var("github_repo").unwrap_or("test".to_string());
-    let trigger_phrase = env::var("trigger_phrase").unwrap_or("flows summarize".to_string());
+    let repo = env::var("github_repo").unwrap_or(".github".to_string());
+    let trigger_phrase = env::var("trigger_phrase").unwrap_or("sih_bot".to_string());
 
     let events = vec!["pull_request", "issue_comment"];
     listen_to_event(&GithubLogin::Default, &owner, &repo, events, |payload| {
@@ -161,7 +161,7 @@ async fn handler(
     }
 
     let chat_id = format!("PR#{pull_number}");
-    let system = &format!("You are an experienced software developer. You will act as a reviewer for a GitHub Pull Request titled \"{}\".", title);
+    let system = &format!("You are an experienced software developer. You will act as a code reviewer for a GitHub Pull Request titled \"{}\".", title);
     let mut openai = OpenAIFlows::new();
     openai.set_retry_times(3);
 
